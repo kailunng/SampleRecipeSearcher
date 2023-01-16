@@ -1,47 +1,54 @@
 package com.ngkai.recipesearcher.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
-
-private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
-)
-
-private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
-)
+import androidx.compose.runtime.*
 
 @Composable
 fun RecipeSearcherTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    colors: MyColorPalette = if (darkTheme) darkColorPalette() else lightColorPalette(),
+    typography: MyTypography = MyTheme.typography,
+    shapes: MyShapes = MyTheme.shape,
+    sizes: MySize = MyTheme.sizes,
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
+    val rememberedColors = remember { colors.copy() }.apply { updateColorsFrom(colors) }
+    CompositionLocalProvider(
+        LocalColors provides rememberedColors,
+        LocalTypography provides typography,
+        LocalShapes provides shapes,
+        LocalSizes provides sizes
+    ) {
+        content()
     }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
 }
+
+object MyTheme {
+    val colors: MyColorPalette
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalColors.current
+
+    val typography: MyTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypography.current
+
+    val shape: MyShapes
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalShapes.current
+
+    val sizes: MySize
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalSizes.current
+}
+
+internal val LocalColors = staticCompositionLocalOf { lightColorPalette() }
+
+internal val LocalTypography = staticCompositionLocalOf { MyTypography() }
+
+internal val LocalShapes = staticCompositionLocalOf { MyShapes() }
+
+internal val LocalSizes = staticCompositionLocalOf { MySize() }

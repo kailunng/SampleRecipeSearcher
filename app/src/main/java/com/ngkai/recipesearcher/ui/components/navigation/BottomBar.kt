@@ -4,6 +4,8 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -11,8 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.em
 import androidx.navigation.NavController
-import com.ngkai.recipesearcher.ui.theme.Purple200
-import com.ngkai.recipesearcher.ui.theme.Purple700
+import com.ngkai.recipesearcher.ui.theme.MyTheme
 
 @Composable
 fun BottomBar(modifier: Modifier = Modifier, screens: List<Screens.BottomNavScreens>, navController: NavController, currentNavScreen: String) {
@@ -21,17 +22,17 @@ fun BottomBar(modifier: Modifier = Modifier, screens: List<Screens.BottomNavScre
     ) {
         screens.forEach { screen ->
             BottomNavigationItem(
-                selectedContentColor = Purple700,
-                unselectedContentColor = Purple200,
+                selectedContentColor = MyTheme.colors.buttonPrimary,
+                unselectedContentColor = MyTheme.colors.buttonSecondaryEnabled,
                 icon = {
                     if (currentNavScreen == screen.route) {
                         Icon(
-                            painter = painterResource(id = screen.selectedIcon),
+                            imageVector = screen.selectedIcon,
                             contentDescription = stringResource(id = screen.title)
                         )
                     } else {
                         Icon(
-                            painter = painterResource(id = screen.unSelectedIcon),
+                            imageVector = screen.unSelectedIcon,
                             contentDescription = stringResource(id = screen.title)
                         )
                     }

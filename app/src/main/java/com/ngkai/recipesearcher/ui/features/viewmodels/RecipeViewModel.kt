@@ -17,7 +17,8 @@ import javax.inject.Inject
 class RecipeViewModel @Inject constructor(
     repository: RecipeRepository
 ) : ViewModel() {
-    private val recipes = repository.getRecipe(query = "Cookie")
+
+    private val recipeRepository = repository
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean>
@@ -31,11 +32,9 @@ class RecipeViewModel @Inject constructor(
     val error: StateFlow<String?>
         get() = _error.asStateFlow()
 
-    init {
-        load()
-    }
+    fun getRecipe(text: String) {
+        val recipes = recipeRepository.getRecipe(query = text)
 
-    private fun load() {
         viewModelScope.launch {
             recipes.collect {
                 when (it) {

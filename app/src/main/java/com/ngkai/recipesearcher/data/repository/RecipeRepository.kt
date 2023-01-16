@@ -31,8 +31,8 @@ class RecipeRepository @Inject constructor(
             }
         },
         shouldFetch = {
-            // only fetches once every 24 hours
-            recipeRateLimiter.shouldFetch(Constants.RateLimiter.RECIPE_RATE_LIMITER)
+            // only fetches once every 24 hours or no data
+            it.isEmpty() || recipeRateLimiter.shouldFetch(Constants.RateLimiter.RECIPE_RATE_LIMITER)
         }
     )
 }

@@ -3,4 +3,5 @@
     <string name="home">Home</string>
     <string name="recipes">Recipes</string>
     <string name="recipe_list">Recipe List</string>
+    <string name="search_recipe">Search for a recipe or ingredient</string>
 </resources>
